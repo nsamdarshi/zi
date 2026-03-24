@@ -858,7 +858,7 @@
 
     .about-badge {
       position: absolute;
-      top: 21px;
+      top: -14px;
       right: 28px;
       background: var(--red);
       color: #fff;
@@ -1017,7 +1017,9 @@
       overflow: hidden;
       transition: all .3s;
       box-shadow: var(--sh);
-      cursor: pointer
+      cursor: pointer;
+      display: flex;
+      flex-direction: column
     }
 
     .prod-card:hover {
@@ -1063,7 +1065,10 @@
     }
 
     .prod-body {
-      padding: 18px 20px 20px
+      padding: 18px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1
     }
 
     .prod-name {
@@ -1078,48 +1083,53 @@
       font-size: 12.5px;
       color: var(--muted);
       line-height: 1.65;
-      margin-bottom: 16px;
-      min-height: 44px
+      margin-bottom: 12px;
+      flex: 1
     }
 
-    .prod-foot {
+    .prod-specs-row {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 13px;
-      border-top: 1px solid var(--border)
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 14px
     }
 
-    .prod-price {
-      font-size: 20px;
-      font-weight: 800;
-      color: var(--navy)
+    .prod-spec-chip {
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 10.5px;
+      color: var(--muted);
+      padding: 3px 8px;
+      white-space: nowrap
     }
 
-    .prod-unit {
-      font-size: 11px;
-      color: var(--muted)
-    }
-
-    .prod-detail-btn {
-      background: transparent;
-      border: 1.5px solid var(--navy);
+    .prod-spec-chip strong {
       color: var(--navy);
-      padding: 7px 14px;
-      border-radius: 6px;
-      font-size: 12px;
+      font-weight: 700
+    }
+
+    .prod-view-btn {
+      width: 100%;
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      padding: 11px 0;
+      border-radius: 8px;
+      font-size: 13px;
       font-weight: 700;
       cursor: pointer;
       font-family: 'Manrope', sans-serif;
       transition: all .2s;
       display: flex;
       align-items: center;
-      gap: 5px
+      justify-content: center;
+      gap: 7px;
+      margin-top: auto
     }
 
-    .prod-detail-btn:hover {
-      background: var(--navy);
-      color: #fff
+    .prod-view-btn:hover {
+      background: var(--red)
     }
 
     .view-all-center {
@@ -2443,6 +2453,365 @@
         gap: 36px
       }
     }
+
+
+    /* ─── HOME PRODUCT DRAWER ─── */
+    .hd-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 800;
+      background: rgba(15, 31, 61, .65);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .35s
+    }
+
+    .hd-overlay.open {
+      opacity: 1;
+      pointer-events: all
+    }
+
+    .hd-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(680px, 100%);
+      background: #fff;
+      z-index: 801;
+      transform: translateX(110%);
+      transition: transform .4s cubic-bezier(.22, 1, .36, 1);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column
+    }
+
+    .hd-panel.open {
+      transform: translateX(0)
+    }
+
+    .hd-head {
+      background: var(--navy);
+      padding: 36px 40px 32px;
+      position: relative;
+      flex-shrink: 0
+    }
+
+    .hd-head::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 28px;
+      background: #fff;
+      clip-path: polygon(0 100%, 100% 100%, 100% 0)
+    }
+
+    .hd-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, .12);
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: 8px;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #fff;
+      font-size: 16px;
+      transition: all .2s
+    }
+
+    .hd-close:hover {
+      background: rgba(255, 255, 255, .22)
+    }
+
+    .hd-cat-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, .5);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin-bottom: 12px
+    }
+
+    .hd-cat-tag::before {
+      content: '';
+      width: 16px;
+      height: 1px;
+      background: rgba(255, 255, 255, .4)
+    }
+
+    .hd-title {
+      font-size: clamp(18px, 2.5vw, 24px);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+      padding-right: 52px;
+      margin-bottom: 6px
+    }
+
+    .hd-moq {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, .5)
+    }
+
+    .hd-body {
+      padding: 32px 40px 20px;
+      flex: 1
+    }
+
+    .hd-main-img {
+      width: 100%;
+      height: 240px;
+      background: var(--off);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-bottom: 24px
+    }
+
+    .hd-main-img img {
+      max-width: 190px;
+      max-height: 190px;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 14px rgba(15, 31, 61, .1))
+    }
+
+    .hd-sec-lbl {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .hd-sec-lbl::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border)
+    }
+
+    .hd-specs {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px
+    }
+
+    .hd-specs tr {
+      border-bottom: 1px solid var(--off2)
+    }
+
+    .hd-specs tr:last-child {
+      border-bottom: none
+    }
+
+    .hd-specs tr:hover td {
+      background: var(--off)
+    }
+
+    .hd-specs td {
+      padding: 10px 6px;
+      font-size: 13.5px
+    }
+
+    .hd-specs td:first-child {
+      color: var(--muted);
+      font-weight: 600;
+      width: 44%;
+      padding-right: 16px
+    }
+
+    .hd-specs td:last-child {
+      color: var(--text);
+      font-weight: 700
+    }
+
+    .hd-desc {
+      background: var(--off);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 24px;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.8
+    }
+
+    .hd-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px
+    }
+
+    .hd-feature {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 13px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text)
+    }
+
+    .hd-cta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 20px 40px 28px;
+      border-top: 1px solid var(--border);
+      background: #fff;
+      flex-shrink: 0
+    }
+
+    .hd-cta-wa {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #25D366;
+      color: #fff;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+      transition: all .22s;
+      text-decoration: none
+    }
+
+    .hd-cta-wa:hover {
+      background: #1da851;
+      transform: translateY(-2px)
+    }
+
+    .hd-cta-enq {
+      flex: 1;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+      transition: all .22s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px
+    }
+
+    .hd-cta-enq:hover {
+      background: var(--red2);
+      transform: translateY(-2px)
+    }
+
+    /* Home enquiry modal */
+    .hd-enquiry {
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      background: rgba(15, 31, 61, .72);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s;
+      padding: 20px
+    }
+
+    .hd-enquiry.open {
+      opacity: 1;
+      pointer-events: all
+    }
+
+    .hd-enquiry-box {
+      background: #fff;
+      border-radius: 20px;
+      padding: 40px 36px;
+      max-width: 440px;
+      width: 100%;
+      position: relative;
+      transform: scale(.95);
+      transition: transform .3s
+    }
+
+    .hd-enquiry.open .hd-enquiry-box {
+      transform: scale(1)
+    }
+
+    .hd-eq-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: var(--off);
+      border: none;
+      border-radius: 7px;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .hd-eq-close:hover {
+      background: var(--border)
+    }
+
+    @media(max-width:480px) {
+      .hd-panel {
+        width: 100%;
+        top: 0
+      }
+
+      .hd-head {
+        padding: 72px 20px 22px
+      }
+
+      .hd-body {
+        padding: 20px 20px 16px
+      }
+
+      .hd-cta {
+        padding: 14px 20px 20px;
+        flex-direction: column;
+        gap: 10px
+      }
+
+      .hd-enquiry-box {
+        padding: 28px 20px
+      }
+    }
   </style>
 </head>
 
@@ -2485,11 +2854,12 @@
     <div class="hero-inner">
       <div>
         <div class="hero-pill">
-          <div class="hero-pill-dot"></div>Trusted Manufacturer Since 2010
+          <div class="hero-pill-dot"></div>OEM Manufacturer · 2,500+ Brands Served
         </div>
-        <h1 class="hero-h1">Advanced <em>Security</em> &amp; Surveillance Solutions</h1>
-        <p class="hero-p">Manufacturer &amp; wholesale supplier of premium CCTV cameras, IP cameras, PCB modules &amp;
-          surveillance accessories — serving India from Ghaziabad, UP.</p>
+        <h1 class="hero-h1">Build Your Brand with <em>OEM</em> Surveillance Manufacturing</h1>
+        <p class="hero-p">Zylan International manufactures CCTV cameras, IP cameras &amp; PCB modules for 2,500+
+          companies across India — with complete white labelling, custom branding &amp; bulk supply from Ghaziabad, UP.
+        </p>
         <div class="hero-btns">
           <a href="products.html" class="btn-red">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -2502,16 +2872,16 @@
         </div>
         <div class="hero-stats">
           <div class="hstat">
+            <div class="hstat-num">2500<sup>+</sup></div>
+            <div class="hstat-lbl">OEM Clients</div>
+          </div>
+          <div class="hstat">
             <div class="hstat-num">15<sup>+</sup></div>
             <div class="hstat-lbl">Years Active</div>
           </div>
           <div class="hstat">
             <div class="hstat-num">200<sup>+</sup></div>
             <div class="hstat-lbl">Products</div>
-          </div>
-          <div class="hstat">
-            <div class="hstat-num">₹5<sup>Cr</sup></div>
-            <div class="hstat-lbl">Turnover</div>
           </div>
         </div>
       </div>
@@ -2560,24 +2930,24 @@
   <div class="trust-bar">
     <div class="trust-inner">
       <div class="trust-item">
-        <div class="trust-ico">🏛️</div>
+        <div class="trust-ico">🏭</div>
         <div>
-          <div class="trust-title">GST Registered</div>
-          <div class="trust-sub">09ACLPH9954R1ZF</div>
+          <div class="trust-title">OEM Manufacturer</div>
+          <div class="trust-sub">2,500+ Companies Served</div>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-ico">🏷️</div>
+        <div>
+          <div class="trust-title">White Labelling</div>
+          <div class="trust-sub">Your Brand, Our Manufacturing</div>
         </div>
       </div>
       <div class="trust-item">
         <div class="trust-ico">✅</div>
         <div>
-          <div class="trust-title">IndiaMart TrustSEAL</div>
-          <div class="trust-sub">Verified Manufacturer</div>
-        </div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-ico">🌏</div>
-        <div>
-          <div class="trust-title">IEC Certified</div>
-          <div class="trust-sub">Import Export Code Ready</div>
+          <div class="trust-title">GST · IEC · TrustSEAL</div>
+          <div class="trust-sub">Fully Verified Exporter</div>
         </div>
       </div>
       <div class="trust-item">
@@ -2618,12 +2988,12 @@
             <div class="about-card-label">Company Overview</div>
             <div class="metrics-grid">
               <div class="metric">
-                <div class="metric-val">15<em>+</em></div>
-                <div class="metric-lbl">Years Experience</div>
+                <div class="metric-val">2500<em>+</em></div>
+                <div class="metric-lbl">OEM Clients</div>
               </div>
               <div class="metric">
-                <div class="metric-val">₹5<em>Cr</em></div>
-                <div class="metric-lbl">Annual Turnover</div>
+                <div class="metric-val">15<em>+</em></div>
+                <div class="metric-lbl">Years Experience</div>
               </div>
               <div class="metric">
                 <div class="metric-val">200<em>+</em></div>
@@ -2640,27 +3010,28 @@
         </div>
         <div class="about-text reveal d1">
           <div class="eyebrow">About Zylan</div>
-          <h2 class="sec-title">Trusted <span>Security</span> Partner Since 2010</h2>
-          <p>Zylan International is a registered manufacturer and wholesale supplier based in Ghaziabad, Uttar Pradesh.
-            We provide a complete ecosystem of CCTV surveillance products — from PCB modules and camera housings to
-            finished IP cameras and full accessories.</p>
-          <p>With IndiaMart TrustSEAL verification, GST compliance, and an Import-Export license, every transaction is
-            backed by transparency and accountability.</p>
+          <h2 class="sec-title">India's Trusted <span>OEM Partner</span> Since 2010</h2>
+          <p>Zylan International is a leading OEM manufacturer of CCTV cameras, IP cameras, PCB modules, and complete
+            surveillance accessories — trusted by <strong>2,500+ companies</strong> across India to build and power
+            their own brands.</p>
+          <p>We specialize in <strong>white labelling</strong> — meaning businesses, dealers, and distributors can sell
+            our products under their own brand name, logo, and packaging. From PCB modules to finished camera units,
+            everything is available with full OEM customization.</p>
           <div class="checklist">
             <div class="check-item">
-              <div class="check-icon">✓</div>Direct Manufacturer — No Middlemen, Best Pricing
+              <div class="check-icon">✓</div>OEM Manufacturer for 2,500+ Companies Pan-India
             </div>
             <div class="check-item">
-              <div class="check-icon">✓</div>200+ SKUs Across All Surveillance Categories
+              <div class="check-icon">✓</div>White Labelling — Your Brand, Our Manufacturing
             </div>
             <div class="check-item">
-              <div class="check-icon">✓</div>Pan-India Shipping &amp; Bulk Order Fulfilment
+              <div class="check-icon">✓</div>Custom Logo, Packaging &amp; Model Numbers Available
             </div>
             <div class="check-item">
-              <div class="check-icon">✓</div>IEC Certified for International Export
+              <div class="check-icon">✓</div>200+ SKUs — Cameras, PCBs, Housings &amp; Accessories
             </div>
             <div class="check-item">
-              <div class="check-icon">✓</div>IndiaMart Verified Exporter &amp; TrustSEAL Holder
+              <div class="check-icon">✓</div>IEC Certified · IndiaMart TrustSEAL · GST Verified
             </div>
           </div>
         </div>
@@ -2697,8 +3068,8 @@
       <div class="reveal" style="text-align:center;max-width:620px;margin:0 auto 52px">
         <div class="eyebrow" style="justify-content:center">Product Categories</div>
         <h2 class="sec-title" style="text-align:center">Complete <span>Surveillance</span> Ecosystem</h2>
-        <p class="sec-sub" style="margin:0 auto">Every component of a modern CCTV installation — all available from a
-          single trusted manufacturer.</p>
+        <p class="sec-sub" style="margin:0 auto">Every component of a modern CCTV installation — manufactured by Zylan
+          and available for white labelling under your brand.</p>
       </div>
       <div class="solutions-grid reveal">
         <a href="products.html#cctv-camera" class="sol-card">
@@ -2751,43 +3122,47 @@
       <div class="why-layout">
         <div class="why-left reveal">
           <div class="eyebrow" style="color:#fca5a5">Why Choose Us</div>
-          <h2 class="sec-title white">The Zylan <span>Advantage</span></h2>
-          <p class="sec-sub white">A decade of manufacturing expertise, competitive pricing, and a product range that
-            covers every node of the surveillance supply chain.</p>
-          <a href="#contact" class="btn-red">Get a Free Quote</a>
+          <h2 class="sec-title white">The Zylan <span>OEM Advantage</span></h2>
+          <p class="sec-sub white">2,500+ companies already build and sell their surveillance brand using Zylan's
+            manufacturing — here's why they choose us.</p>
+          <a href="#contact" class="btn-red">Start Your OEM Order</a>
         </div>
         <div class="why-cards reveal d1">
           <div class="why-card">
             <div class="why-card-icon">🏭</div>
-            <div class="why-card-title">Direct Manufacturer</div>
-            <div class="why-card-desc">Products made in-house — no middlemen, best margins and consistent quality.</div>
+            <div class="why-card-title">True OEM Manufacturer</div>
+            <div class="why-card-desc">We manufacture directly — no resellers, no middlemen. You get factory-direct
+              pricing and quality control.</div>
+          </div>
+          <div class="why-card">
+            <div class="why-card-icon">🏷️</div>
+            <div class="why-card-title">White Labelling Ready</div>
+            <div class="why-card-desc">Put your brand name, logo, and packaging on any product. We've done it for 2,500+
+              companies already.</div>
           </div>
           <div class="why-card">
             <div class="why-card-icon">🎯</div>
             <div class="why-card-title">200+ Product Range</div>
-            <div class="why-card-desc">From ₹85 lenses to enterprise 8MP IP systems — broadest catalogue under one roof.
-            </div>
-          </div>
-          <div class="why-card">
-            <div class="why-card-icon">✅</div>
-            <div class="why-card-title">Fully Verified</div>
-            <div class="why-card-desc">GST, IndiaMart TrustSEAL, IEC certified — full compliance, zero compromise.</div>
+            <div class="why-card-desc">From ₹85 lenses to 8MP IP camera systems — the broadest surveillance catalogue
+              under one OEM roof.</div>
           </div>
           <div class="why-card">
             <div class="why-card-icon">🚀</div>
             <div class="why-card-title">Fast Bulk Fulfilment</div>
-            <div class="why-card-desc">Pan-India delivery with support for bulk and repeat orders from Ghaziabad.</div>
+            <div class="why-card-desc">Pan-India delivery with dedicated support for bulk, white-labelled, and repeat
+              orders from Ghaziabad.</div>
           </div>
           <div class="why-card">
             <div class="why-card-icon">💰</div>
             <div class="why-card-title">Best-in-Market Pricing</div>
-            <div class="why-card-desc">Competitive pricing starting at ₹85 — unmatched value for dealers and
-              integrators.</div>
+            <div class="why-card-desc">Competitive wholesale pricing starting at ₹85 — maximum margin for dealers and
+              brand owners.</div>
           </div>
           <div class="why-card">
             <div class="why-card-icon">🌏</div>
             <div class="why-card-title">Export Ready</div>
-            <div class="why-card-desc">Licensed IEC holder supplying international buyers and global partners.</div>
+            <div class="why-card-desc">IEC certified for international supply — white-labelled products shipped to
+              global buyers.</div>
           </div>
         </div>
       </div>
@@ -2955,8 +3330,8 @@
     <div class="footer-grid">
       <div>
         <span class="footer-brand-name">Zylan International</span>
-        <p class="footer-brand-desc">Manufacturer &amp; wholesale supplier of CCTV cameras, IP cameras, PCB modules
-          &amp; surveillance accessories — serving India from Ghaziabad since 2010.</p>
+        <p class="footer-brand-desc">OEM manufacturer &amp; white labelling partner for 2,500+ companies — CCTV cameras,
+          IP cameras, PCB modules &amp; accessories. Based in Ghaziabad since 2010.</p>
         <div class="footer-gst">GST: 09ACLPH9954R1ZF &nbsp;·&nbsp; IEC: ACLPH9954R</div>
       </div>
       <div class="footer-col">
@@ -3070,13 +3445,11 @@
       <div class="prod-body">
         <div class="prod-name">${p.n}</div>
         <div class="prod-desc">${p.d}</div>
-        <div class="prod-foot">
-          <div><div class="prod-price">${p.p}</div><div class="prod-unit">${p.u}</div></div>
-          <button class="prod-detail-btn" onclick="event.stopPropagation();goToProduct('${encodeURIComponent(p.n)}')">
-            View Details
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </div>
+        <div class="prod-specs-row">${p.specs.slice(0, 2).map(s => `<span class="prod-spec-chip">${s[0]}: <strong>${s[1]}</strong></span>`).join("")}</div>
+        <button class="prod-view-btn" onclick="event.stopPropagation();goToProduct('${encodeURIComponent(p.n)}')">
+          View Details
+          <svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
       </div>
     </div>`).join('');
     }
@@ -3089,7 +3462,51 @@
     }
 
     function goToProduct(name) {
-      window.location.href = `products.html?p=${name}`;
+      const decoded = decodeURIComponent(name);
+      const p = PRODS.find(x => x.n === decoded);
+      if (!p) return;
+      // populate drawer
+      document.getElementById('hd-cat').textContent = CAT_LABELS[p.c] || 'Product';
+      document.getElementById('hd-title').textContent = p.n;
+      document.getElementById('hd-moq').textContent = '';
+      document.getElementById('hd-img').src = p.i;
+      document.getElementById('hd-img').alt = p.n;
+      document.getElementById('hd-thumbs').style.display = 'none';
+      // specs
+      document.getElementById('hd-specs').innerHTML = p.specs.map(s =>
+        `<tr><td>${s[0]}</td><td>${s[1]}</td></tr>`).join('');
+      // desc
+      document.getElementById('hd-desc').textContent = p.d;
+      // features — not in home PRODS, skip
+      document.getElementById('hd-features').innerHTML = '';
+      // WA link
+      const waMsg = encodeURIComponent(`Hello Zylan International,\n\nI am interested in: *${p.n}*\n\nKindly share availability and best price.\n\nThank you`);
+      document.getElementById('hd-wa-btn').href = `https://wa.me/919911342005?text=${waMsg}`;
+      document.getElementById('hd-prod-name').textContent = 'Enquiry for: ' + p.n;
+      window._hdProd = p.n;
+      // open
+      document.getElementById('hd-overlay').classList.add('open');
+      document.getElementById('hd-panel').classList.add('open');
+      document.getElementById('hd-panel').scrollTop = 0;
+      document.body.style.overflow = 'hidden';
+    }
+    function closeHomeDrawer() {
+      document.getElementById('hd-overlay').classList.remove('open');
+      document.getElementById('hd-panel').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function openHomeEnquiry() {
+      document.getElementById('hd-enquiry').classList.add('open');
+      document.getElementById('hd-enquiry-box').style.transform = 'scale(1)';
+    }
+    function closeHomeEnquiry() {
+      document.getElementById('hd-enquiry').classList.remove('open');
+    }
+    function submitHomeEnquiry() {
+      const n = document.getElementById('hq-name').value, p = document.getElementById('hq-phone').value;
+      if (!n || !p) { alert('Please fill name and phone.'); return; }
+      document.getElementById('hq-ok').style.display = 'block';
+      setTimeout(() => { closeHomeEnquiry(); document.getElementById('hq-ok').style.display = 'none'; }, 2500);
     }
 
     // Form
@@ -3112,12 +3529,90 @@
       if (!e.target.closest('#nav') && !e.target.closest('#mobile-menu')) closeMenu();
     });
 
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeHomeDrawer(); closeHomeEnquiry(); } });
+
     // Scroll reveal
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
   </script>
+
+  <!-- HOME PRODUCT DRAWER -->
+  <div class="hd-overlay" id="hd-overlay" onclick="closeHomeDrawer()"></div>
+  <div class="hd-panel" id="hd-panel">
+    <div class="hd-head">
+      <button class="hd-close" onclick="closeHomeDrawer()">✕</button>
+      <div class="hd-cat-tag" id="hd-cat">Category</div>
+      <div class="hd-title" id="hd-title">Product Name</div>
+      <div class="hd-moq" id="hd-moq"></div>
+    </div>
+    <div class="hd-body">
+      <div class="hd-main-img"><img id="hd-img" src="" alt=""></div>
+      <div id="hd-thumbs" style="display:none"></div>
+      <div class="hd-sec-lbl">Specifications</div>
+      <table class="hd-specs" id="hd-specs"></table>
+      <div class="hd-sec-lbl">Description</div>
+      <div class="hd-desc" id="hd-desc"></div>
+      <div class="hd-features" id="hd-features"></div>
+      <a href="products.html"
+        style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;margin-bottom:8px">
+        View full product catalogue →
+      </a>
+    </div>
+    <div class="hd-cta">
+      <a class="hd-cta-wa" id="hd-wa-btn" href="#" target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.49" />
+        </svg>
+        WhatsApp
+      </a>
+      <button class="hd-cta-enq" onclick="openHomeEnquiry()">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M2 11V5a1 1 0 011-1h10a1 1 0 011 1v6a1 1 0 01-1 1H3a1 1 0 01-1-1z" stroke="white"
+            stroke-width="1.4" />
+          <path d="M5 8h6M5 10h4" stroke="white" stroke-width="1.4" stroke-linecap="round" />
+        </svg>
+        Send Enquiry
+      </button>
+    </div>
+  </div>
+
+  <!-- HOME ENQUIRY MODAL -->
+  <div class="hd-enquiry" id="hd-enquiry" onclick="if(event.target===this)closeHomeEnquiry()">
+    <div class="hd-enquiry-box" id="hd-enquiry-box">
+      <button class="hd-eq-close" onclick="closeHomeEnquiry()">✕</button>
+      <h3 style="font-size:20px;font-weight:800;color:var(--navy);margin-bottom:4px">Send Enquiry</h3>
+      <p id="hd-prod-name" style="font-size:13px;color:var(--muted);margin-bottom:20px"></p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <label
+            style="font-size:11px;font-weight:700;color:var(--navy);letter-spacing:.06em;text-transform:uppercase">Name</label>
+          <input id="hq-name" type="text" placeholder="Your name"
+            style="border:1.5px solid var(--border);border-radius:8px;padding:11px 13px;font-family:'Manrope',sans-serif;font-size:14px;outline:none;width:100%">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <label
+            style="font-size:11px;font-weight:700;color:var(--navy);letter-spacing:.06em;text-transform:uppercase">Phone</label>
+          <input id="hq-phone" type="tel" placeholder="+91..."
+            style="border:1.5px solid var(--border);border-radius:8px;padding:11px 13px;font-family:'Manrope',sans-serif;font-size:14px;outline:none;width:100%">
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:16px">
+        <label
+          style="font-size:11px;font-weight:700;color:var(--navy);letter-spacing:.06em;text-transform:uppercase">Quantity</label>
+        <input id="hq-qty" type="text" placeholder="e.g. 50 pieces"
+          style="border:1.5px solid var(--border);border-radius:8px;padding:11px 13px;font-family:'Manrope',sans-serif;font-size:14px;outline:none;width:100%">
+      </div>
+      <button onclick="submitHomeEnquiry()"
+        style="width:100%;background:var(--red);color:#fff;border:none;padding:14px;border-radius:8px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:800;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;transition:background .2s">Send
+        Enquiry</button>
+      <div id="hq-ok"
+        style="display:none;text-align:center;padding:13px;color:#16a34a;font-weight:700;font-size:14px;background:#f0fdf4;border:1px solid #86efac;border-radius:8px;margin-top:10px">
+        ✅ Enquiry sent! We'll respond within 24 hours.</div>
+    </div>
+  </div>
 
   <!-- FLOATING WHATSAPP -->
   <a href="https://wa.me/919911342005?text=Hello%20Zylan%20International%2C%20I%20would%20like%20to%20enquire%20about%20your%20products."
